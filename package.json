@@ -1,0 +1,21 @@
+{
+    "name": "library",
+    "version": "1.0.0",
+    "description": "library web application for books",
+    "main": "server.js",
+    "scripts": {
+        "devStart": "nodemon backend/server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Mo_Alnawagy",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.0.1",
+        "dotenv": "^16.0.0",
+        "ejs": "^3.1.6",
+        "express": "^4.17.3"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.15"
+    }
+}
