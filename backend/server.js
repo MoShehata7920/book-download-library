@@ -1,8 +1,11 @@
+// Require Express to run server and routes
 const express = require('express');
 
 const dotenv = require('dotenv');
 const connectDB = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
+
+// Start up an instance of app
 const app = express();
 
 
