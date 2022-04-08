@@ -5,7 +5,7 @@ import { Container, Form, FormControl, Nav, Navbar, NavDropdown } from 'react-bo
 
 const Header = () => {
     return (
-
+      <>
         <Navbar bg="light" expand="lg">
             <Container fluid>
                 <Navbar.Brand href="#">Navbar scroll</Navbar.Brand>
@@ -42,6 +42,7 @@ const Header = () => {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
+      </>
 
     );
 };
