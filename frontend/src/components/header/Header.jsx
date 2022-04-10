@@ -10,7 +10,7 @@ const Header = () => {
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="me-auto">
-      <Nav.Link href="#features">Features</Nav.Link>
+      <Nav.Link as={Link} to="/Booksoftheyear">Books(2022)</Nav.Link>
       <Nav.Link as={Link} to="/Prices" >Pricing</Nav.Link>
       <NavDropdown title="Categories" id="collasible-nav-dropdown">
         <NavDropdown.Item as={Link} to="/Sciencebooks" >Science</NavDropdown.Item>
@@ -19,9 +19,9 @@ const Header = () => {
       </NavDropdown>
     </Nav>
     <Nav>
-      <Nav.Link href="#deets">More deets</Nav.Link>
-      <Nav.Link eventKey={2} href="#memes">
-        Dank memes
+      <Nav.Link as={Link} to="/Exclusive">Exclusive</Nav.Link>
+      <Nav.Link eventKey={2} as={Link} to="/About">
+        ABOUT
       </Nav.Link>
     </Nav>
     <Form className='form-inline'>
