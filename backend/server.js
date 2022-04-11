@@ -1,4 +1,3 @@
-// Require Express to run server and routes
 const express = require('express');
 
 const dotenv = require('dotenv');
@@ -7,10 +6,10 @@ const userRoutes = require('./routes/userRoutes')
 
 // Start up an instance of app
 const app = express();
+app.use(express.json())
 
 
-
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5050;
 dotenv.config();
 connectDB()
 
@@ -20,15 +19,8 @@ app.get('/', (req, res) => {
 
 });
 app.use('/api/users', userRoutes)
-app.get('/api/notes', (req, res) => {
-    res.json({});
 
-});
-// app.get('/api/notes/:id', (req, res) => {
-//     const note = notes.find((n) => n._id === req.params.id);
-//     res.send(note)
 
-// });
 app.listen(port, () => {
     console.log(`server is working on port: ${port}`)
 });
