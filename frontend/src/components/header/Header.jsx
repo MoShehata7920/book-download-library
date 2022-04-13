@@ -1,11 +1,29 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
+import React, { useEffect  } from 'react';
+
 import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap'
+
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+  const userInfo = localStorage.getItem("userInfo")
+
+const navigate = useNavigate()
+  const logout = ()=>{
+    localStorage.removeItem("userInfo")
+    navigate("/")
+  }
+  useEffect(() => {
+    console.log(userInfo)
+if((!userInfo && window.location.href !="http://localhost:3000/login" && window.location.href !="http://localhost:3000/register" )){
+navigate("/")}
+  
+
+}, [userInfo, navigate])
   return (
     <>
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-  <Container>
+  <Container >
   <Navbar.Brand  as={Link} to='/' >404! Library</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
   <Navbar.Collapse id="responsive-navbar-nav">
@@ -32,7 +50,13 @@ const Header = () => {
     <Col>
     <Button  variant='light'>Search</Button>
     </Col>
-  </Row>    
+    <Col>
+    <Button  variant='light' onClick={logout}>Logout</Button>
+    </Col>
+  </Row>  
+    
+  
+  
     </Form>
   </Navbar.Collapse>
   </Container>
