@@ -5,12 +5,14 @@ const asyncHAndler = require('express-async-handler')
 const generateToken = require('../utils/generateTokens')
 
 
-router.route('/').post(asyncHAndler(async(req, res) => {
+
+router.route('/register').post(asyncHAndler(async(req, res) => {
 
     const { name, email, password } = req.body;
     const isExist = await userModel.findOne({ email })
     if (isExist) {
-        res.json({ messege: "user already Exists" })
+        res.status(401);
+        throw new Error("Email ALready exists");
 
     } else {
         const user = await userModel.create({ name, email, password })
@@ -24,7 +26,8 @@ router.route('/').post(asyncHAndler(async(req, res) => {
 
             })
         } else {
-            res.json({ messege: "Error happened while Addin th User Please try again" })
+            res.status(402)
+            throw new Error("Error happened while Addin th User Please try again")
         }
     }
 }))
@@ -44,11 +47,14 @@ router.route('/login').post(asyncHAndler(async(req, res) => {
             })
 
         } else {
-            res.json({ messege: "incorrect password" })
+            res.status(401);
+            throw new Error("Invalid Password");
         }
 
     } else {
-        res.json({ messege: `there is no account with email: ${email}` })
+        res.status(404);
+
+        throw new Error(`there is no account with email: ${email}`);
     }
 }))
 
