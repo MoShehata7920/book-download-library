@@ -18,23 +18,7 @@ const secreteKey = "Error404"
 
 
 const storage = multer.diskStorage({
-    // filename: (req, file, next) => {
-    //     const extension = file.mimetype.split("/")[1]
-    //     const fileName = file.originalname.toLowerCase().split(' ').join('-');
 
-
-    //     let path = `${__dirname}/public/${fileName}-${Date.now()}.${extension}`
-    //     req.body.filePath = path
-    //     fs.writeFileSync(path, file, (err) => {
-    //         console.log(err);
-    //         if (!error) {
-    //             console.log("done");
-    //             next()
-    //         }
-
-    //     })
-
-    // }
     filename: (req, file, cb) => {
         cb(null, uuid.v4() + path.extname(file.originalname))
     },
@@ -73,7 +57,7 @@ let protect = async(req, res, next) => {
 }
 
 router.route('/:id').get(protect, asyncHAndler(async(req, res) => {
-    result = Book.findById(req.body.id)
+    result = Book.findById(req.params.id)
     res.json(result)
 }))
 router.route('/').get(protect, asyncHAndler(async(req, res) => {
@@ -101,6 +85,40 @@ router.route('/upload').post(upload, asyncHAndler(async(req, res) => {
 
 
 }))
+
+router.route('/download/:id').post(asyncHAndler(async(req, res) => {
+
+    const book = await Book.findById(req.params.id)
+
+    const file = book.data;
+    console.log(file);
+
+    res.download(file)
+
+
+}))
+
+router.route('/searchBox/:params').get(asyncHAndler(async(req, res) => {
+    const s = req.params.params
+    const book = await Book.find({
+        title: { $regex: "^" + s + '.*', $options: 'i' }
+    })
+
+    res.send(book)
+
+}))
+
+router.route('/search/:params').get(asyncHAndler(async(req, res) => {
+    const s = req.params.params
+    const book = await Book.find({
+        title: { $regex: '.*' + s + '.*', $options: 'i' }
+    })
+
+    res.send(book)
+
+}))
+
+
 
 
 

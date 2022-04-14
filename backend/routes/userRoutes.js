@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router()
 const userModel = require('./model/userModel')
+const Book = require('./model/BookModel')
 const asyncHAndler = require('express-async-handler')
 const generateToken = require('../utils/generateTokens')
 
@@ -57,6 +58,15 @@ router.route('/login').post(asyncHAndler(async(req, res) => {
         throw new Error(`there is no account with email: ${email}`);
     }
 }))
+
+
+
+// router.route('/userinfo/:id').get(asyncHAndler(async(req, res) => {
+
+//     const id = req.params
+//     books = Book.find().where('user')
+
+// }))
 
 
 module.exports = router
