@@ -3,9 +3,8 @@ const bodyParser = require("body-parser");
 const dotenv = require('dotenv');
 const connectDB = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
-const bookRoutes = require('./routes/bookRoutes')
+const { router: bookRoutes } = require('./routes/bookRoutes')
 var fileupload = require("express-fileupload");
-
 const cors = require("cors");
 const corsOptions = {
     origin: '*',

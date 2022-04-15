@@ -9,10 +9,12 @@ const multer = require('multer')
 fs = require('fs');
 const uuid = require('uuid')
 const path = require('path')
+var ObjectID = require('mongodb').ObjectID;
 
 
 
-const secreteKey = "Error404"
+
+
 
 
 
@@ -36,6 +38,7 @@ var upload = multer({
 
 
 let protect = async(req, res, next) => {
+    const secreteKey = "Error404"
 
     let token;
     if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
@@ -57,7 +60,8 @@ let protect = async(req, res, next) => {
 }
 
 router.route('/:id').get(protect, asyncHAndler(async(req, res) => {
-    result = Book.findById(req.params.id)
+    result = await Book.findById(req.params.id)
+    console.log(result);
     res.json(result)
 }))
 router.route('/').get(protect, asyncHAndler(async(req, res) => {
@@ -86,27 +90,23 @@ router.route('/upload').post(upload, asyncHAndler(async(req, res) => {
 
 }))
 
-router.route('/download/:id').post(asyncHAndler(async(req, res) => {
+router.route('/download/:id').get(asyncHAndler(async(req, res) => {
+    console.log(req.params.id);
+    // const id = ObjectID(eq.params.id)
+    await Book.find({ _id: "62574558dd77edf427f429a3" }).then((rees) => {
+            console.log(rees);
 
-    const book = await Book.findById(req.params.id)
+            res.download(rees[0].data)
+        }
 
-    const file = book.data;
-    console.log(file);
-
-    res.download(file)
+    )
 
 
-}))
 
-router.route('/searchBox/:params').get(asyncHAndler(async(req, res) => {
-    const s = req.params.params
-    const book = await Book.find({
-        title: { $regex: "^" + s + '.*', $options: 'i' }
-    })
-
-    res.send(book)
 
 }))
+
+
 
 router.route('/search/:params').get(asyncHAndler(async(req, res) => {
     const s = req.params.params
@@ -125,4 +125,4 @@ router.route('/search/:params').get(asyncHAndler(async(req, res) => {
 
 
 
-module.exports = router
+module.exports = { router, protect }

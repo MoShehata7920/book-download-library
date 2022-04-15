@@ -61,12 +61,15 @@ router.route('/login').post(asyncHAndler(async(req, res) => {
 
 
 
-// router.route('/userinfo/:id').get(asyncHAndler(async(req, res) => {
+router.route('/userinfo/:id').get(asyncHAndler(async(req, res) => {
 
-//     const id = req.params
-//     books = Book.find().where('user')
+    const id = req.params
+    books = Book.find({ user: id })
+    user = userModel.findById(id).select("-password")
 
-// }))
+    res.json()
+
+}))
 
 
 module.exports = router
