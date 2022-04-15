@@ -1,7 +1,6 @@
 import {Button , Form, Col, Row, Spinner,Alert} from 'react-bootstrap'
 import { useNavigate   }  from 'react-router-dom' ;
 import React, {  useEffect, useState  } from 'react';
-import DropBoxChooser from 'react-dropbox-chooser'
 import axios from 'axios';
 import { FormControl } from 'react-bootstrap';
 window.Buffer = window.Buffer || require("buffer").Buffer;

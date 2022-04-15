@@ -1,8 +1,14 @@
 import React from 'react'
+import { Card } from 'react-bootstrap'
+import c3 from './images/c3.png'
 
 const Languagesbooks = () => {
   return (
-    <div>LanguagesBooks</div>
+    <>
+    <Card>
+      <Card.Img src={c3} className="c" alt='' />
+    </Card>
+  </>
   )
 }
 
