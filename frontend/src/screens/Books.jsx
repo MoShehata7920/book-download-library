@@ -1,160 +1,102 @@
-import React from 'react'
-import {Button , Row, Col} from 'react-bootstrap'
+import React, {useState, useEffect} from 'react'
+import {Button , Row, Col,Spinner, Card} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
-import { CardGroup } from 'react-bootstrap'
-import { Card } from 'react-bootstrap'
-import M1 from './images/M1.jpg'
-import M2 from './images/M2.jpg'
-import M3 from './images/M3.jpg'
-import M4 from './images/M4.jpg'
-import M5 from './images/M5.jpg'
-import M6 from './images/M6.jpg'
-import s1 from './images/s1.jpg'
-import { Nav } from 'react-bootstrap'
+import axios from 'axios';
+import { saveAs } from "file-saver";
+
+
+
+
 
 const Books = () => {
 
+
+
   const userInfo = JSON.parse(localStorage.getItem("userInfo"))
   const isAdmin = userInfo.isAdmin
+  const token = userInfo.token
+  const [Loading, setLoading] = useState(false);
+  const [dataloaded, setdataloaded] = useState(false);
+  const [data, setdata] = useState("");
+  const [error, seterror] = useState(false);
+    const Authorization = `Bearer ${token}`
+    const config = {
+      headers:{
+       authorization:Authorization,
+      },               
+  }
+
+  const download = async(data)=>{
+     axios.get("http://localhost:5050/api/books/download/62574558dd77edf427f429a3",{responseType: 'blob',}).then(res=>{
+       console.log(res);
+      saveAs(res.data, "file.pdf")
+
+     }
+     )
+  
+  }
+  const getBooks = async ()=>{
+    await axios.get("http://localhost:5050/api/books/",config).then((res)=>{
+        if(res.data){
+          localStorage.setItem("data",JSON.stringify(res.data) )
+        }
+        
+      
+      setdataloaded(true)
+     
+      seterror(false)
+      setLoading(false)
+      
+    }).catch((err)=>{
+      setLoading(false)
+      seterror(true)
+    })
+    console.log(data);
+    return data
+  }
+
+  useEffect(() => {
+    getBooks()
+  }, []);
+
+ const myData = JSON.parse(localStorage.getItem("data"))
+ console.log(myData);
+ 
   return (
    
     <div>
+        <Row className="py-3">
+   
+   <Col>
+   {Loading && <Spinner animation="grow" />}
+   </Col>
+ </Row>
        <Row>
          <Col></Col>
          {isAdmin &&  <Col><Button as={Link} to='/Addbook'> AddBook</Button></Col>}
-      <Col></Col>
+      <Col> </Col>
       </Row>
-      <Card>
-      <Card.Img src={s1} className="top" alt='' />
+      <Row>
+      {dataloaded&& console.log(data)}
+      </Row>
+     try {
+       myData.map(ele=>{
+        return <Card style={{ width: '18rem' }}>
+        <Card.Img variant="top" src={ele.img} />
+        <Card.Body>
+          <Card.Title>{ele.title}</Card.Title>
+          
+          <Button variant="primary" onClick={download}>Download</Button>
+        </Card.Body>
       </Card>
-    <Card className="text-center"></Card>
-
-      <Row xs={4} md={1} className="g-4">
-        <Nav as={Link} to='Languagesbooks' >'   ' See More </Nav>
-      <CardGroup>
-  <Card as={Link} to="/Thebook" >
-    <img src={M1} className="m1" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A1.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M2} className="m2" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A1.2</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M3} className="m3" alt='1' />
-    <Card.Footer>
-      <small className="text-muted">Menchen a2.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M4} className="m4" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A2.2</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M5} className="m5" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen b1.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M6} className="m6" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen b1.2</small>
-    </Card.Footer>
-  </Card>
-  </CardGroup>
-
-  <Nav as={Link} to='Sciencebooks' >'   ' See More </Nav>
-  <CardGroup>
-  <Card as={Link} to="/Thebook" >
-    <img src={M1} className="m1" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A1.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M2} className="m2" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A1.2</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M3} className="m3" alt='1' />
-    <Card.Footer>
-      <small className="text-muted">Menchen a2.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M4} className="m4" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A2.2</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M5} className="m5" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen b1.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M6} className="m6" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen b1.2</small>
-    </Card.Footer>
-  </Card>
-  </CardGroup>
-
-  <Nav as={Link} to='Programmingbooks' >'   ' See More </Nav>
-  <CardGroup>
-  <Card as={Link} to="/Thebook" >
-    <img src={M1} className="m1" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A1.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M2} className="m2" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A1.2</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M3} className="m3" alt='1' />
-    <Card.Footer>
-      <small className="text-muted">Menchen a2.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M4} className="m4" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen A2.2</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M5} className="m5" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen b1.1</small>
-    </Card.Footer>
-  </Card>
-  <Card as={Link} to="/Thebook" >
-    <img src={M6} className="m6" alt='' />
-    <Card.Footer>
-      <small className="text-muted">Menchen b1.2</small>
-    </Card.Footer>
-  </Card>
-  </CardGroup>
-
-
-</Row>
-      <div>
-      Books
-      </div></div>
+ 
+      })
+     } catch (error) {
+       <div>there is no books</div>
+     }
+     {console.log(myData)}
+      </div>
+      
   )
 }
 

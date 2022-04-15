@@ -1,6 +1,7 @@
 import {Button , Form, Col, Row, Spinner,Alert} from 'react-bootstrap'
 import { useNavigate   }  from 'react-router-dom' ;
 import React, {  useEffect, useState  } from 'react';
+import DropBoxChooser from 'react-dropbox-chooser'
 import axios from 'axios';
 import { FormControl } from 'react-bootstrap';
 window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -88,12 +89,12 @@ const submitHandler = async (event) =>{
   
   <Form.Group controlId="formFile" className="mb-3">
     <Form.Label>Book Cover Image</Form.Label>
-    <Form.Control type="file" name='file' onChange={(e) =>{
+    <Form.Control type="file" name='file' accept='.pdf' onChange={(e) =>{
       setfile(e.target.files[0])
       const data = new FormData()
       data.append('data',e.target.files[0]) 
-      axios.post("http://localhost:5050/api/books/upload",data).then((res)=>{
-        setfilepath(res.data)
+      axios.post(`http://localhost:5050/api/books/download/62574690fb2753b8139e245b`,data).then((res)=>{
+        // setfilepath(res.data)
       }).catch((err)=>{
         seterror("can't upload the file")
       })

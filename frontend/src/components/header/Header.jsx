@@ -29,6 +29,7 @@ navigate("/")}
   <Navbar.Collapse id="responsive-navbar-nav">
     <Nav className="me-auto">
       <Nav.Link as={Link} to="/Booksoftheyear">Books(2022)</Nav.Link>
+      <Nav.Link as={Link} to="/Prices" >Pricing</Nav.Link>
       <NavDropdown title="Categories" id="collasible-nav-dropdown">
         <NavDropdown.Item as={Link} to="/Sciencebooks" >Science</NavDropdown.Item>
         <NavDropdown.Item as={Link} to="/Programmingbooks">Programming</NavDropdown.Item>

@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
+import Prices from './screens/Prices';
 import Books from './screens/Books' ;
 import Sciencebooks from './screens/Sciencebooks'
 import Programmingbooks from './screens/Programmingbooks'
@@ -34,6 +35,7 @@ let userInfo = JSON.parse(localStorage.getItem("userInfo"))
         }}>
         <Routes>
           <Route path='/' element={<Lnading />}  />
+          <Route path='/prices' element ={<Prices/>} />
           <Route path='/sciencebooks' element ={<Sciencebooks/>} />
           <Route path='/languagesbooks' element ={<Languagesbooks/>} />
           <Route path='/programmingbooks' element ={< Programmingbooks/>} />
@@ -46,8 +48,8 @@ let userInfo = JSON.parse(localStorage.getItem("userInfo"))
           <Route path='/AddBook' element ={<AddBook />} />
           <Route path='*' element={<ErrorPage />} />
 
-
-
+          
+          
         </Routes>
         </div>
         <Footer />
