@@ -60,14 +60,21 @@ router.route('/login').post(asyncHAndler(async(req, res) => {
 }))
 
 
+router.route('/Allusers').get(asyncHAndler(async(req, res) => {
+
+    users = await userModel.find().select("-password")
+
+    res.json(users)
+
+}))
 
 router.route('/userinfo/:id').get(asyncHAndler(async(req, res) => {
 
     const id = req.params
-    books = Book.find({ user: id })
-    user = userModel.findById(id).select("-password")
+    books = await Book.find({ user: id })
+    user = await userModel.findById(id).select("-password")
 
-    res.json()
+    res.json(books, user)
 
 }))
 

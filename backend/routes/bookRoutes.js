@@ -92,8 +92,8 @@ router.route('/upload').post(upload, asyncHAndler(async(req, res) => {
 
 router.route('/download/:id').get(asyncHAndler(async(req, res) => {
     console.log(req.params.id);
-    // const id = ObjectID(eq.params.id)
-    await Book.find({ _id: "62574558dd77edf427f429a3" }).then((rees) => {
+    const id = ObjectID(req.params.id)
+    await Book.find({ _id: id }).then((rees) => {
             console.log(rees);
 
             res.download(rees[0].data)
@@ -111,7 +111,7 @@ router.route('/download/:id').get(asyncHAndler(async(req, res) => {
 router.route('/search/:params').get(asyncHAndler(async(req, res) => {
     const s = req.params.params
     const book = await Book.find({
-        title: { $regex: '.*' + s + '.*', $options: 'i' }
+        title: { $regex: ".*" + s, $options: 'i' }
     })
 
     res.send(book)
