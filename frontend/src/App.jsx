@@ -1,7 +1,7 @@
 import './App.css';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import Prices from './screens/Prices';
+import Prices from './screens/Search';
 import Books from './screens/Books' ;
 import Sciencebooks from './screens/Sciencebooks'
 import Programmingbooks from './screens/Programmingbooks'
@@ -16,8 +16,7 @@ import axios from 'axios';
 import Lnading from './screens/LandingPage';
 import Login from './screens/Login';
 import AddBook from './screens/AddBook'
-
-
+import Search from './screens/Search'
 
 
 
@@ -46,6 +45,8 @@ let userInfo = JSON.parse(localStorage.getItem("userInfo"))
           <Route path='/register' element ={<Register />} />
           <Route path='/Books' element ={<Books />} />
           <Route path='/AddBook' element ={<AddBook />} />
+          <Route path='/Search' element ={<Search />} />
+
           <Route path='*' element={<ErrorPage />} />
 
           

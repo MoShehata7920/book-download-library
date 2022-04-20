@@ -93,8 +93,9 @@ const submitHandler = async (event) =>{
       setfile(e.target.files[0])
       const data = new FormData()
       data.append('data',e.target.files[0]) 
-      axios.post(`http://localhost:5050/api/books/download/62574690fb2753b8139e245b`,data).then((res)=>{
-        // setfilepath(res.data)
+      axios.post("http://localhost:5050/api/books/upload",data).then((res)=>{
+        setfilepath(res.data)
+        console.log(filepath);
       }).catch((err)=>{
         seterror("can't upload the file")
       })

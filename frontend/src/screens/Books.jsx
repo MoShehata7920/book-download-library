@@ -26,15 +26,8 @@ const Books = () => {
       },               
   }
 
-  const download = async(data)=>{
-     axios.get("http://localhost:5050/api/books/download/62574558dd77edf427f429a3",{responseType: 'blob',}).then(res=>{
-       console.log(res);
-      saveAs(res.data, "file.pdf")
-
-     }
-     )
   
-  }
+ 
   const getBooks = async ()=>{
     await axios.get("http://localhost:5050/api/books/",config).then((res)=>{
         if(res.data){
@@ -77,24 +70,33 @@ const Books = () => {
       <Col> </Col>
       </Row>
       <Row>
-      {dataloaded&& console.log(data)}
-      </Row>
-     try {
+      {dataloaded&&  
        myData.map(ele=>{
-        return <Card style={{ width: '18rem' }}>
+        return <Col > 
+        <Card style={{ width: '18rem' }}>
         <Card.Img variant="top" src={ele.img} />
         <Card.Body>
           <Card.Title>{ele.title}</Card.Title>
           
-          <Button variant="primary" onClick={download}>Download</Button>
+          <Button variant="primary" onClick={
+           async()=>{
+            console.log(ele);
+              axios.get(`http://localhost:5050/api/books/download/${ele['_id']}`,{responseType: 'blob',}).then(res=>{
+                console.log(res);
+               saveAs(res.data, "file.pdf")
+         
+              }
+              )
+           
+           }
+          }>Download</Button>
         </Card.Body>
       </Card>
- 
+      </Col>
       })
-     } catch (error) {
-       <div>there is no books</div>
      }
-     {console.log(myData)}
+      </Row>
+     
       </div>
       
   )

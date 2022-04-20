@@ -1,14 +1,41 @@
 import { Link } from 'react-router-dom'
-import React, { useEffect  } from 'react';
+import React, { useEffect, useState  } from 'react';
 
 import { Button, Col, Container, Form, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap'
 
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
+
+
+
+
 
 const Header = () => {
-  const userInfo = localStorage.getItem("userInfo")
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+  const token = userInfo.token
+  const Authorization = `Bearer ${token}`
+  const config = {
+    headers:{
+     authorization:Authorization,
+    },               
+}
+  const [dataloaded, setdataloaded] = useState(false);
+  const [Loading, setLoading] = useState(false);
+  const [error, seterror] = useState(false);
+  const [search, setsearch] = useState("");
+  const navigate = useNavigate()
 
-const navigate = useNavigate()
+const searchP = async ()=>{
+  console.log(search);
+  await axios.get("http://localhost:5050/api/books/search/"+search,config).then((res)=>{
+      if(res.data){
+        localStorage.setItem("searchData",JSON.stringify(res.data) )
+      }
+  }).then((res)=>{
+    navigate("/Search")
+  })
+}
+
   const logout = ()=>{
     localStorage.removeItem("userInfo")
     navigate("/")
@@ -37,22 +64,22 @@ navigate("/")}
       </NavDropdown>
     </Nav>
     <Nav>
-      <Nav.Link as={Link} to="/Exclusive">Exclusive</Nav.Link>
-      <Nav.Link eventKey={2} as={Link} to="/About">
-        ABOUT
-      </Nav.Link>
+    
     </Nav>
     <Form className='form-inline'>
     <Row>
     <Col xs={7}>
-      <Form.Control  type='text' placeholder='Search' className='mr-sm-2' />
+      <Form.Control  type='text' placeholder='Search' onChange={(ele)=>{
+        setsearch(ele.target.value)
+        console.log(search);
+      }} className='mr-sm-2' />
     </Col>
     <Col>
-    <Button  variant='light'>Search</Button>
+    <Button  variant='light' onClick={searchP}>Search</Button>
     </Col>
-    <Col>
+   {userInfo&&  <Col>
     <Button  variant='light' onClick={logout}>Logout</Button>
-    </Col>
+    </Col>}
   </Row>  
     
   
