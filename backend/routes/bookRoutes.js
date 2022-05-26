@@ -4,11 +4,12 @@ const Book = require('./model/BookModel')
 const userModel = require('./model/userModel')
 const asyncHAndler = require('express-async-handler')
 const jwt = require('jsonwebtoken');
-const formidable = require('formidable');
 const multer = require('multer')
 fs = require('fs');
 const uuid = require('uuid')
-const path = require('path')
+const path = require('path');
+const { find } = require('./model/userModel');
+const User = require('./model/userModel');
 var ObjectID = require('mongodb').ObjectID;
 
 
@@ -33,7 +34,16 @@ var upload = multer({
     dest: `public/`
 }).single('data');
 
+router.route('/statics').get(asyncHAndler(async(req, res) => {
 
+    const mostDownloaded = await Book.find().sort({ downloaded: -1 }).limit(1)
+    const numOfUsers = await User.find().count()
+    const numOfBooks = await Book.find().count()
+
+
+    res.json({})
+
+}))
 
 
 
@@ -94,9 +104,12 @@ router.route('/download/:id').get(asyncHAndler(async(req, res) => {
     console.log(req.params.id);
     const id = ObjectID(req.params.id)
     await Book.find({ _id: id }).then((rees) => {
-            console.log(rees);
+            Book.findOneAndUpdate({ _id: id }, { $inc: { "downloaded": 1 } }).then(() => {
+                console.log(rees);
 
-            res.download(rees[0].data)
+                res.download(rees[0].data)
+            })
+
         }
 
     )

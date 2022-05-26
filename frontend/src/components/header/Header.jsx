@@ -12,13 +12,18 @@ import axios from 'axios'
 
 const Header = () => {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-  const token = userInfo.token
-  const Authorization = `Bearer ${token}`
+  let Authorization
   const config = {
     headers:{
      authorization:Authorization,
     },               
 }
+  if(userInfo){
+      const token = userInfo.token
+   Authorization = `Bearer ${token}`
+ 
+  }
+
   const [dataloaded, setdataloaded] = useState(false);
   const [Loading, setLoading] = useState(false);
   const [error, seterror] = useState(false);
@@ -42,7 +47,7 @@ const searchP = async ()=>{
   }
   useEffect(() => {
     console.log(userInfo)
-if((!userInfo && window.location.href !="http://localhost:3000/login" && window.location.href !="http://localhost:3000/register" )){
+if((!userInfo && window.location.href !="http://localhost:3001/login" && window.location.href !="http://localhost:3001/register" )){
 navigate("/")}
   
 
