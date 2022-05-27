@@ -4,10 +4,11 @@ const dotenv = require('dotenv');
 const connectDB = require('./config/db')
 const userRoutes = require('./routes/userRoutes')
 const { router: bookRoutes } = require('./routes/bookRoutes')
+var fileupload = require("express-fileupload");
 const cors = require("cors");
 const corsOptions = {
     origin: '*',
-    credentials: true,
+    credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
 
